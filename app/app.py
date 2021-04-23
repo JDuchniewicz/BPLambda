@@ -19,7 +19,7 @@ def lambda_handler(event, context):
     ppg = np.array(ppg)
     prepared = prepare_data(ppg)
 
-    prediction = model.predict(prepared)[0]
+    prediction = model.predict(prepared.reshape(1, -1))[0]
     sbp = prediction[0]
     dbp = prediction[1]
 
