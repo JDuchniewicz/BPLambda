@@ -6,16 +6,20 @@ import json
 from io import BytesIO
 from PIL import Image
 
+from data_preparation import prepare_data
+
 model_file = '/opt/ml/model'
 model = joblib.load(model_file)
 
 
 def lambda_handler(event, context):
-    ppg_bytes = event['body'].encode('utf-8')
-    raw_ppg = BytesIO(base64.b64decode(ppg_bytes))
+    body = event['body'].encode('utf-8')
+    ppg = json.loads(body)['data']
 
-    x = np.array(raw_ppg)
-    prediction = model.predict(x.reshape(1, -1))[0]
+    ppg = np.array(ppg)
+    prepared = prepare_data(ppg)
+
+    prediction = model.predict(prepared)[0]
     sbp = prediction[0]
     dbp = prediction[1]
 
