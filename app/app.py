@@ -25,13 +25,14 @@ def lambda_handler(event, context):
     prediction = model.predict(prepared.reshape(1, -1))[0]
     sbp = prediction[0]
     dbp = prediction[1]
+    print(f"Predictions {sbp} {dbp}")
 
     pred_json = json.dumps(
             {
                 "SBP": sbp,
                 "DBP": dbp,
             })
-    client = boto3.client('iot')
+    client = boto3.client('iot-data')
 
     response = client.publish(topic='bibop/incoming',
                               qos=0,
