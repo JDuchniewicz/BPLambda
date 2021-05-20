@@ -16,7 +16,6 @@ model = joblib.load(model_file)
 def lambda_handler(event, context):
     print(event)
     stringized = str(event).replace('\'', '"')
-    #body = event.encode('utf-8')
     ppg = json.loads(stringized)['data']
 
     ppg = np.array(ppg)
@@ -37,13 +36,3 @@ def lambda_handler(event, context):
     response = client.publish(topic='bibop/incoming',
                               qos=0,
                               payload=pred_json)
-    print(response)
-    #return {
-    #    'statusCode': 200,
-    #    'body': json.dumps(
-    #        {
-    #            "SBP": sbp,
-    #            "DBP": dbp,
-    #        }
-    #    )
-    #}
