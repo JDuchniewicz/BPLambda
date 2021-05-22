@@ -5,7 +5,7 @@ import numpy as np
 
 # SAMPLING FREQUENCY
 FS = 125
-SCALE_MIN = 0
+SCALE_MIN = 0.1
 SCALE_MAX = 4 # these are the values from the dataset
 
 # NORMALIZATION
