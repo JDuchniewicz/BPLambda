@@ -5,6 +5,20 @@ import numpy as np
 
 # SAMPLING FREQUENCY
 FS = 125
+SCALE_MIN = 0
+SCALE_MAX = 4 # these are the values from the dataset
+
+# NORMALIZATION
+def normalize_data(data):
+    max = np.max(data)
+    min = np.min(data)
+
+    def normalize(x):
+        return ((SCALE_MAX - SCALE_MIN) * (x - min)/(max - min)) + SCALE_MIN
+
+    normalized = np.array(list(map(normalize, data)))
+    return normalized
+
 
 # TEMPORAL FEATURES
 

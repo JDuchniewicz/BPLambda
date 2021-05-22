@@ -7,7 +7,7 @@ import boto3
 from io import BytesIO
 from PIL import Image
 
-from data_preparation import prepare_data
+from data_preparation import prepare_data, normalize_data
 
 model_file = '/opt/ml/model'
 model = joblib.load(model_file)
@@ -19,6 +19,7 @@ def lambda_handler(event, context):
     ppg = json.loads(stringized)['data']
 
     ppg = np.array(ppg)
+    ppg = normalize_data(ppg)
     prepared = prepare_data(ppg)
 
     prediction = model.predict(prepared.reshape(1, -1))[0]
